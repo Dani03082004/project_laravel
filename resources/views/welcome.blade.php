@@ -12,10 +12,10 @@
     <div class="bg-white shadow-lg rounded-lg p-10 w-full max-w-md text-center">
 
         <div class="flex justify-center mb-2">
-            <img src="{{ asset('img/logo1.png') }}" alt="logo" class="h-52 w-52 object-contain">
+            <img src="{{ asset('img/logo1nuevo.png') }}" alt="logo" class="h-52 w-52 object-contain">
         </div>
 
-        <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">¡Bienvenido!</h2>
+        <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">¡Bienvenido a InmoGest!</h2>
         <p class="text-lg text-gray-600 text-center mb-8">Sistema de gestión inmobiliaria desarrollado con Laravel, que permite a los usuarios gestionar sus propiedades de forma eficiente y segura.</p>
 
         <div class="flex justify-between">

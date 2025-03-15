@@ -17,4 +17,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/admin', function () {
+    return "Ets un administrador!";
+})->middleware(['check-role:admin'])->name('admin');
+
+Route::get('/member', function () {
+    return "Ets un membre de la gestora d'InmoGest!";
+})->middleware(['check-role:member'])->name('member');
+
+
+require __DIR__ . '/auth.php';

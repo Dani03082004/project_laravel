@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Inmobiliaria - Dani Bañeza</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ asset('img/logo1nuevo.png') }}" type="image/png">
 </head>
 
 <body class="bg-gradient-to-r from-blue-600 to-blue-400 h-screen flex justify-center items-center">

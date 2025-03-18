@@ -46,61 +46,34 @@ class User extends Authenticatable
         ];
     }
 
-    public function authorizeRoles($roles)
-
-    {
-
+    public function authorizeRoles(array $roles){
         if ($this->hasAnyRole($roles)) {
-
             return true;
         }
-
         abort(401, 'Non authorized action.');
     }
 
-    public function hasAnyRole($roles)
-
-    {
-
-        if (is_array($roles)) {
-
+    public function hasAnyRole(array $roles){
             foreach ($roles as $role) {
-
                 if ($this->hasRole($role)) {
-
                     return true;
                 }
             }
-        } else {
-
-            if ($this->hasRole($roles)) {
-
-                return true;
-            }
-        }
-
         return false;
     }
 
-    public function hasRole($role)
-
-    {
-
+    public function hasRole($role){
         if ($this->roles()->where('name', $role)->first()) {
-
             return true;
         }
-
         return false;
     }
 
-    public function roles()
-    {
+    public function roles(){
         return $this->belongsToMany(Role::class, 'user_roles');
     }
 
-    public function properties()
-    {
+    public function properties(){
         return $this->hasMany(Property::class);
     }
 }

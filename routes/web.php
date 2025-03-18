@@ -4,7 +4,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -21,16 +20,15 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/admin', function () {
     return "Ets un administrador!";
-})->middleware(['check-role:admin'])->name('admin');
+})->middleware(['role:admin'])->name('admin');
 
 Route::get('/member', function () {
     return "Ets un membre de la gestora d'InmoGest!";
-})->middleware(['check-role:member'])->name('member');
+})->middleware(['role:member'])->name('member');
 
 Route::resource('properties', PropertyController::class);
 Route::middleware(['auth'])->group(function () {
     Route::resource('properties', PropertyController::class)->except(['index', 'show']);
 });
-
 
 require __DIR__ . '/auth.php';

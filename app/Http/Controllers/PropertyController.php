@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +29,9 @@ class PropertyController extends Controller{
 
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['admin', 'member']);
+        $user = Auth::user();
+        dd($user);
+        $user->authorizeRoles(['admin', 'member']);
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -54,6 +57,7 @@ class PropertyController extends Controller{
     public function edit(Property $property)
     {
         $user = Auth::user();
+        dd($user);
         $user->authorizeRoles(['admin', 'member']);
 
         if ($user->id !== $property->user_id && !$user->hasRole('admin')) {
@@ -66,6 +70,7 @@ class PropertyController extends Controller{
     public function update(Request $request, Property $property)
     {
         $user = Auth::user();
+        dd($user);
         $user->authorizeRoles(['admin', 'member']);
 
         if ($user->id !== $property->user_id && !$user->hasRole('admin')) {
@@ -89,6 +94,7 @@ class PropertyController extends Controller{
     public function destroy(Property $property)
     {
         $user = Auth::user();
+        dd($user);
         $user->authorizeRoles(['admin']);
 
         $property->delete();

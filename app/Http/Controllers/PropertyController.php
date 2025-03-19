@@ -8,14 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller{
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['index', 'show']);
-    }
 
     public function index()
     {
-        $properties = Property::latest()->paginate(10);
+        $properties = Property::where('user_id', Auth::id())->get();
         return view('properties.index', compact('properties'));
     }
 
@@ -51,7 +47,7 @@ class PropertyController extends Controller{
 
     public function show(Property $property)
     {
-        return view('properties.show', compact('property'));
+        return view('properties.show', compact('properties'));
     }
 
     public function edit(Property $property)
@@ -64,7 +60,7 @@ class PropertyController extends Controller{
             abort(403);
         }
 
-        return view('properties.edit', compact('property'));
+        return view('properties.edit', compact('properties'));
     }
 
     public function update(Request $request, Property $property)

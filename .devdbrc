@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "/home/linux/projectes/project_laravel/laravel/database/database.sqlite"
+  }
+]

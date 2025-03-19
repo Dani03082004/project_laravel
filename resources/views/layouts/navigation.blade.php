@@ -15,6 +15,18 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(auth()->user()->hasRole('admin'))
+                    <x-nav-link :href="route('properties.show')" :active="request()->routeIs('properties.show')">
+                        {{ __('Gestionar Inmobiliarias') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('properties.create')" :active="request()->routeIs('properties.create')">
+                        {{ __('Crear Inmobiliaria') }}
+                    </x-nav-link>
+                    @elseif(auth()->user()->hasRole('member'))
+                    <x-nav-link :href="route('properties.show')" :active="request()->routeIs('properties.show')">
+                        {{ __('Mis Inmobiliarias') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -43,7 +55,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -89,7 +101,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

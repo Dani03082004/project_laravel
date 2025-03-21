@@ -47,7 +47,7 @@ class PropertyController extends Controller{
 
     public function show(Property $property)
     {
-        return view('properties.show', compact('properties'));
+        return view('properties.show', compact('property'));
     }
 
     public function edit(Property $property)

@@ -2,27 +2,28 @@
 
 namespace App\Policies;
 
-use App\Models\Property;
 use App\Models\User;
+use App\Models\Property;
 
 class PropertyPolicy{
+
     public function view(User $user, Property $property)
     {
-        return $user->id === $property->user_id || $user->role->name === 'admin';
+        return $user->id === $property->user_id || $user->roles()->where('name', 'admin')->exists();
     }
 
     public function create(User $user)
     {
-        return $user->role->name === 'member' || $user->role->name === 'admin';
+        return $user->roles()->whereIn('name', ['member', 'admin'])->exists();
     }
 
     public function update(User $user, Property $property)
     {
-        return $user->id === $property->user_id || $user->role->name === 'admin';
+        return $user->id === $property->user_id || $user->roles()->where('name', 'admin')->exists();
     }
 
     public function delete(User $user, Property $property)
     {
-        return $user->id === $property->user_id || $user->role->name === 'admin';
+        return $user->id === $property->user_id || $user->roles()->where('name', 'admin')->exists();
     }
 }

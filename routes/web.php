@@ -25,18 +25,14 @@ Route::middleware('auth')->group(function () {
         return "Eres un miembro del gestor de InmoGest!";
     })->middleware('role:member')->name('member');
 
-    Route::middleware('role:admin|member')->group(function () {
+    Route::middleware('role:admin,member')->group(function () {
         Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
         Route::get('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
         Route::post('/properties', [PropertyController::class, 'store'])->name('properties.store');
-        Route::get('/properties/{properties}', [PropertyController::class, 'show'])->name('properties.show');
-        Route::get('/properties/{properties}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
-        Route::put('/properties/{properties}', [PropertyController::class, 'update'])->name('properties.update');
-        Route::delete('/properties/{properties}', [PropertyController::class, 'destroy'])->name('properties.destroy');
-    });
-
-    Route::middleware('role:admin|member')->group(function () {
-        Route::resource('properties', PropertyController::class)->only(['index', 'show']);
+        Route::get('/properties/show', [PropertyController::class, 'show'])->name('properties.show');
+        Route::get('/properties/{property}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
+        Route::put('/properties/{property}', [PropertyController::class, 'update'])->name('properties.update');
+        Route::delete('/properties/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
     });
 });
 

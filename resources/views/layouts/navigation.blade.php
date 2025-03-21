@@ -16,15 +16,21 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @if(auth()->user()->hasRole('admin'))
-                    <x-nav-link :href="route('properties.show')" :active="request()->routeIs('properties.show')">
-                        {{ __('Gestionar Inmobiliarias') }}
+                    <!-- Gestiono las Inmobiliarias de dicho usuario pasando el optional para intentar mostrar sus propiedades -->
+                    <x-nav-link :href="route('properties.show', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.show')">
+                        {{ __('Gestión de Propiedades') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('properties.create')" :active="request()->routeIs('properties.create')">
-                        {{ __('Crear Inmobiliaria') }}
+
+                    <x-nav-link :href="route('properties.create', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.create')">
+                        {{ __('Nueva Propiedad') }}
                     </x-nav-link>
                     @elseif(auth()->user()->hasRole('member'))
-                    <x-nav-link :href="route('properties.show')" :active="request()->routeIs('properties.show')">
-                        {{ __('Mis Inmobiliarias') }}
+                    <x-nav-link :href="route('properties.show', ['property' => optional(auth()->user()->properties->first())->id ?? 1])"
+                        :active="request()->routeIs('properties.show')">
+                        {{ __('Gestión de Propiedades') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('properties.create', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.create')">
+                        {{ __('Nueva Propiedad') }}
                     </x-nav-link>
                     @endif
                 </div>

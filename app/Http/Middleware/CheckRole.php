@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,7 +19,7 @@ class CheckRole
      */
     public function handle($request, Closure $next, string $role){
         if (!$request->user()->hasRole($role)) {
-            return redirect('home');
+            return redirect('dashboard');
         }
 
         return $next($request);

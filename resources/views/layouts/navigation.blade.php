@@ -17,10 +17,12 @@
                     </x-nav-link>
                     @if(auth()->user()->hasRole('admin'))
                     <!-- Gestiono las Inmobiliarias de dicho usuario pasando el optional para intentar mostrar sus propiedades -->
-                    <x-nav-link :href="route('properties.show', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.show')">
+                    <x-nav-link :href="route('properties.index', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.show')">
                         {{ __('Gestión de Propiedades') }}
                     </x-nav-link>
-
+                    <x-nav-link :href="route('properties.show', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.create')">
+                        {{ __('Listado de Propiedades') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('properties.create', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.create')">
                         {{ __('Nueva Propiedad') }}
                     </x-nav-link>
@@ -28,6 +30,9 @@
                     <x-nav-link :href="route('properties.show', ['property' => optional(auth()->user()->properties->first())->id ?? 1])"
                         :active="request()->routeIs('properties.show')">
                         {{ __('Gestión de Propiedades') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('properties.show', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.create')">
+                        {{ __('Listado de Propiedades') }}
                     </x-nav-link>
                     <x-nav-link :href="route('properties.create', ['property' => optional(auth()->user()->properties->first())->id ?? 1])" :active="request()->routeIs('properties.create')">
                         {{ __('Nueva Propiedad') }}

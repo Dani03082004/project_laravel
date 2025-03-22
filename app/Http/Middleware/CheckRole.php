@@ -3,9 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
@@ -14,14 +12,22 @@ class CheckRole
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
-     * @param $role
+     * @param string $roles
      * @return mixed
      */
-    public function handle($request, Closure $next, string $role){
-        if (!$request->user()->hasRole($role)) {
-            return redirect('dashboard');
+    public function handle(Request $request, Closure $next, string $roles)
+    {
+        // Convertimos la lista de roles a un array
+        $rolesArray = explode('|', $roles);
+
+        // Comprobamos si el usuario tiene al menos uno de los roles
+        foreach ($rolesArray as $role) {
+            if ($request->user()->hasRole($role)) {
+                return $next($request);
+            }
         }
 
-        return $next($request);
+        // Si el usuario no tiene ninguno de los roles, lo redirigimos
+        return redirect('dashboard');
     }
 }

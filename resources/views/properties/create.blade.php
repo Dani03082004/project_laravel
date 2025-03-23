@@ -55,7 +55,7 @@
                         <div class="mt-4">
                             <button type="submit"
                                 class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300">
-                                Guardar Propiedad
+                                Crear Propiedad
                             </button>
                         </div>
                     </form>

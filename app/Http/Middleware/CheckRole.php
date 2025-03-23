@@ -17,17 +17,15 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $roles)
     {
-        // Convertimos la lista de roles a un array
-        $rolesArray = explode('|', $roles);
+        // Los roles del usuario pasan a ser un array
+        $rolesUser = explode('|', $roles);
 
-        // Comprobamos si el usuario tiene al menos uno de los roles
-        foreach ($rolesArray as $role) {
+        // Compruebo si el usuario tiene alguno de los roles
+        foreach ($rolesUser as $role) {
             if ($request->user()->hasRole($role)) {
                 return $next($request);
             }
         }
-
-        // Si el usuario no tiene ninguno de los roles, lo redirigimos
         return redirect('dashboard');
     }
 }

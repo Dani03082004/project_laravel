@@ -89,7 +89,6 @@ class PropertyController extends Controller
             abort(403);
         }
 
-        // Validación de los datos
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required',
@@ -99,7 +98,6 @@ class PropertyController extends Controller
             'size' => 'required|integer|min:10',
         ]);
 
-        // Si la validación pasa, actualizamos la propiedad
         $property->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -109,7 +107,6 @@ class PropertyController extends Controller
             'size' => $request->size,
         ]);
 
-        // Redirigir con un mensaje de éxito
         return redirect()->route('properties.show', $property)->with('success', 'Propiedad actualizada');
     }
 
@@ -117,7 +114,7 @@ class PropertyController extends Controller
     public function destroy(Property $property)
     {
         $user = Auth::user();
-        $user->authorizeRoles(['admin']);
+        $user->authorizeRoles(['admin', 'member']);
 
         $property->delete();
         return redirect()->route('properties.index')->with('success', 'Propiedad eliminada');

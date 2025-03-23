@@ -19,7 +19,6 @@
                 @endif
 
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Listado de Propiedades -->
                     <div class="bg-blue-100 p-4 rounded-lg shadow">
                         <h4 class="text-lg font-semibold text-blue-800">Listado de Propiedades</h4>
                         @if(auth()->user()->hasRole('admin'))
@@ -32,7 +31,6 @@
                         </a>
                     </div>
 
-                    <!-- Gestión de Propiedades -->
                     <div class="bg-yellow-100 p-4 rounded-lg shadow">
                         <h4 class="text-lg font-semibold text-yellow-800">Gestión de Propiedades</h4>
                         <p class="text-yellow-600">Administra tus propiedades existentes</p>
@@ -41,7 +39,6 @@
                         </a>
                     </div>
 
-                    <!-- Crear Propiedades (Solo para admins y miembros) -->
                     @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('member'))
                         <div class="bg-green-100 p-4 rounded-lg shadow">
                             <h4 class="text-lg font-semibold text-green-800">Nueva Propiedad</h4>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
+use App\Http\Middleware\CheckRole;  
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,8 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // Rutas para el rol admin y member para gestionar propiedades
-    Route::middleware('role:admin|member')->group(function () {
+    Route::middleware([CheckRole::class.':admin,member'])->group(function () {
         
         Route::get('/properties/index', [PropertyController::class, 'index'])->name('properties.index');
         Route::get('/properties/create', [PropertyController::class, 'create'])->name('properties.create');

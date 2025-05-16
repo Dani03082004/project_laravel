@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,111 +11,85 @@ class PropertyController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         if ($user->hasRole('admin')) {
             $properties = Property::all();
-        } elseif ($user->hasRole('member')){
+        } elseif ($user->hasRole('member')) {
             $properties = Property::where('user_id', $user->id)->get();
+        } else {
+            return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        return view('properties.index', compact('properties'));
-    }
-
-    public function create()
-    {
-        $user = Auth::user();
-        $user->authorizeRoles(['admin', 'member']);
-        return view('properties.create');
+        return response()->json(['properties' => $properties], 200);
     }
 
     public function store(Request $request)
     {
         $user = Auth::user();
-        $user->authorizeRoles(['admin', 'member']);
 
-        $request->validate([
+        if (!($user->hasRole('admin') || $user->hasRole('member'))) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required',
+            'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:sale,rent',
             'location' => 'required|string|max:255',
             'size' => 'required|integer|min:10',
         ]);
 
-        $property = new Property();
-        $property->title = $request->title;
-        $property->description = $request->description;
-        $property->price = $request->price;
-        $property->status = $request->status;
-        $property->location = $request->location;
-        $property->size = $request->size;
-        $property->user_id = Auth::id();
-
+        $property = new Property($validated);
+        $property->user_id = $user->id;
         $property->save();
 
-        return redirect()->route('properties.index')->with('success', 'Propiedad creada correctamente');
+        return response()->json(['message' => 'Propiedad creada correctamente', 'property' => $property], 201);
     }
 
     public function show(Property $property)
     {
         $user = Auth::user();
-        if ($user->hasRole('admin')) {
-            $properties = Property::all();
-        } elseif ($user->hasRole('member')) {
-            $properties = Property::where('user_id', $user->id)->get();
+
+        if ($user->hasRole('admin') || ($user->hasRole('member') && $property->user_id === $user->id)) {
+            return response()->json(['property' => $property], 200);
         }
 
-        return view('properties.show', compact('properties'));
-    }
-
-    public function edit(Property $property)
-    {
-        $user = Auth::user();
-        $user->authorizeRoles(['admin', 'member']);
-
-        if ($user->id !== $property->user_id && !$user->hasRole('admin')) {
-            abort(403);
-        }
-
-        return view('properties.edit', compact('property'));
+        return response()->json(['message' => 'No autorizado'], 403);
     }
 
     public function update(Request $request, Property $property)
     {
         $user = Auth::user();
-        $user->authorizeRoles(['admin', 'member']);
 
-        if ($user->id !== $property->user_id && !$user->hasRole('admin')) {
-            abort(403);
+        if (!($user->hasRole('admin') || ($user->hasRole('member') && $property->user_id === $user->id))) {
+            return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required',
+            'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:sale,rent',
             'location' => 'required|string|max:255',
             'size' => 'required|integer|min:10',
         ]);
 
-        $property->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'status' => $request->status,
-            'location' => $request->location,
-            'size' => $request->size,
-        ]);
+        $property->update($validated);
 
-        return redirect()->route('properties.show', $property)->with('success', 'Propiedad actualizada');
+        return response()->json(['message' => 'Propiedad actualizada', 'property' => $property], 200);
     }
-
 
     public function destroy(Property $property)
     {
         $user = Auth::user();
-        $user->authorizeRoles(['admin', 'member']);
+
+        if (!($user->hasRole('admin') || ($user->hasRole('member') && $property->user_id === $user->id))) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
 
         $property->delete();
-        return redirect()->route('properties.index')->with('success', 'Propiedad eliminada');
+
+        return response()->json(['message' => 'Propiedad eliminada'], 200);
     }
 }

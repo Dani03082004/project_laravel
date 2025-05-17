@@ -37,6 +37,35 @@
             {{ $slot }}
         </main>
     </div>
+
+    <!-- Logout Script -->
+    <script>
+        function logout() {
+            const token = localStorage.getItem('api_token');
+
+            fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                localStorage.removeItem('api_token');
+                localStorage.removeItem('user_email');
+                alert("Sesión cerrada correctamente");
+                window.location.href = "/login";
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userEmail = localStorage.getItem('user_email');
+            if (userEmail) {
+                document.getElementById('user-email').textContent = userEmail;
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -16,6 +16,8 @@ Route::get('/properties/index', fn() => view('properties.index'))->name('propert
 Route::get('/properties/edit/{property}', fn() => view('properties.edit'))->name('properties.edit');
 Route::get('/properties/create', fn() => view('properties.create'))->name('properties.create');
 Route::get('/properties/delete/{property}', fn() => view('properties.delete'))->name('properties.delete');
+Route::get('/cart', fn() => view('cart'))->name('cart');
+Route::get('/orders', fn() => view('orders'))->name('orders');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

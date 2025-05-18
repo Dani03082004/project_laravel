@@ -39,11 +39,26 @@
                             Añadir Propiedad
                         </a>
                     </div>
+
+                    <div class="bg-purple-100 p-4 rounded-lg shadow">
+                        <h4 class="text-lg font-semibold text-purple-800">Mi Carrito</h4>
+                        <p class="text-purple-600">Consulta los productos añadidos al carrito</p>
+                        <a href="{{ route('cart') }}" class="inline-block mt-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
+                            Ver Carrito
+                        </a>
+                    </div>
+
+                    <div class="bg-indigo-100 p-4 rounded-lg shadow">
+                        <h4 class="text-lg font-semibold text-indigo-800">Mis Pedidos</h4>
+                        <p class="text-indigo-600">Historial de compras realizadas</p>
+                        <a href="{{ route('orders') }}" class="inline-block mt-2 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600">
+                            Ver Pedidos
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
         (async () => {
             window.apiToken = localStorage.getItem('api_token');

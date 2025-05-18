@@ -14,7 +14,7 @@ class OrderController extends Controller
         $cartItems = CartItem::where('user_id', auth()->id())->get();
 
         if ($cartItems->isEmpty()) {
-            return response()->json(['message' => 'Cart is empty.'], 400);
+            return response()->json(['message' => 'Carrito esta vacío.'], 400);
         }
 
         $order = Order::create(['user_id' => auth()->id()]);
@@ -29,7 +29,7 @@ class OrderController extends Controller
 
         CartItem::where('user_id', auth()->id())->delete();
 
-        return response()->json(['message' => 'Order placed successfully.']);
+        return response()->json(['message' => 'Pedido creado correctamente.']);
     }
 
     public function index() {

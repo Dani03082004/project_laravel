@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->user(); // funciona con auth:sanctum
 
         if ($user->hasRole('admin')) {
             $properties = Property::all();
@@ -20,7 +20,7 @@ class PropertyController extends Controller
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        return response()->json(['properties' => $properties], 200);
+        return response()->json($properties, 200);
     }
 
     public function store(Request $request)

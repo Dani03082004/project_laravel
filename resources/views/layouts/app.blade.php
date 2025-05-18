@@ -41,7 +41,7 @@
     <!-- Logout Script -->
     <script>
         function logout() {
-            const token = localStorage.getItem('api_token');
+            window.apiToken = localStorage.getItem('api_token');
 
             fetch('/api/logout', {
                 method: 'POST',
